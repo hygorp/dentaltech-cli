@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type {Config} from "tailwindcss"
 
 const config = {
   darkMode: ["class"],
@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -52,6 +52,20 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        'pigment-indigo': {
+          '50': '#faf4ff',
+          '100': '#f4e6ff',
+          '200': '#ead2ff',
+          '300': '#daaeff',
+          '400': '#c37bff',
+          '500': '#ac49ff',
+          '600': '#9825f8',
+          '700': '#8315db',
+          '800': '#6f17b2',
+          '900': '#5b148f',
+          '950': '#49007e',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -60,12 +74,12 @@ const config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {height: "0"},
+          to: {height: "var(--radix-accordion-content-height)"},
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {height: "var(--radix-accordion-content-height)"},
+          to: {height: "0"},
         },
       },
       animation: {

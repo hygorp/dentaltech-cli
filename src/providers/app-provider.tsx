@@ -3,45 +3,52 @@ import {destroyCookie, parseCookies, setCookie} from "nookies";
 import {AppContext} from "@/contexts/app-context";
 
 export function AppContextProvider({children}: { children: React.ReactNode }) {
-    const API_URL: string = process.env.API_URI ?? "";
-    const ORIGIN: string = process.env.ORIGIN ?? "";
+    const API_URL: string = process.env.NEXT_PUBLIC_API_URL ?? ":";
+    const ORIGIN:  string = process.env.NEXT_PUBLIC_ORIGIN  ?? ":";
 
     const [session, setSession] = React.useState<ClientSession>();
-    const isAuthenticated = !!session
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(!!session)
 
     useEffect(() => {
         const {"dt_session": sessionId} = parseCookies()
         const {"dt_jwtoken": token} = parseCookies()
 
-        const tokenValidation = async () => {
-            try {
-                const response = await fetch(API_URL.concat(API_URL.concat("/token/validation")), {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Origin": ORIGIN,
-                        "Session": sessionId,
-                        "Authorization": "Bearer ".concat(token)
-                    }
-                })
-
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    destroyCookie(undefined, "dt_session")
-                    destroyCookie(undefined, "dt_jwtoken")
-                }
-            } catch (error) {
-                throw new Error("Unable to validate token.")
-            }
+        if (token) {
+            tokenValidation(token, sessionId).then(response => {
+                setSession(response)
+            })
         }
+    })
 
-        tokenValidation().then((session) => setSession(session))
-    }, [API_URL, ORIGIN]);
+    const tokenValidation = async (sessionId: string, token: string) => {
+        try {
+            const response = await fetch((API_URL.concat("/token/validation")), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Origin": ORIGIN,
+                    "Session": sessionId,
+                    "Authorization": "Bearer ".concat(token)
+                }
+            })
+
+            if (response.ok) {
+                return response.json()
+            } else {
+                destroyCookie(undefined, "dt_session")
+                destroyCookie(undefined, "dt_jwtoken")
+                setIsAuthenticated(false)
+
+                window.location.href = "/"
+            }
+        } catch (error) {
+            throw new Error("Unable to validate token.")
+        }
+    }
 
     const login = async (username: string, password: string): Promise<number> => {
         try {
-            const response = await fetch(API_URL.concat(API_URL.concat("/user/auth/login")), {
+            const response = await fetch((API_URL.concat("/user/auth/login")), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

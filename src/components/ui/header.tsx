@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, {useContext} from "react";
-import {AuthenticationContext} from "@/contexts/authentication-context";
 import {useTheme} from "next-themes";
 import {Separator} from "@/components/ui/separator";
 import {
@@ -34,9 +33,10 @@ import {toast} from "@/components/ui/use-toast";
 import {ToastAction} from "@/components/ui/toast";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
+import {AppContext} from "@/contexts/app-context";
 
 const Header = () => {
-    const {userSession, logout} = useContext(AuthenticationContext)
+    const {session, logout} = useContext(AppContext)
     const {setTheme} = useTheme()
 
     const handleLogout = async () => {
@@ -48,7 +48,7 @@ const Header = () => {
         })
 
         setTimeout(() => {
-            logout(userSession?.username ?? "", userSession?.sessionId ?? "", userSession?.token ?? "")
+            logout(session?.username ?? "", session?.sessionId ?? "", session?.token ?? "")
             location.href = "/"
         }, 5000)
     }
@@ -66,7 +66,7 @@ const Header = () => {
                                          className={"block md:block lg:hidden w-60 mt-3 dark:text-white"}>
                         <DropdownMenuLabel className={"flex"}>
                             <User className={"w-4 h-4 mr-2"}/>
-                            {userSession?.username}
+                            {session?.username}
                         </DropdownMenuLabel>
 
                         <DropdownMenuSeparator/>
@@ -347,7 +347,7 @@ const Header = () => {
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>
                                             <User className={"mr-2 w-5 h-5"}/>
-                                            <span>{userSession?.username}</span>
+                                            <span>{session?.username}</span>
                                             <DropdownMenuShortcut></DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator/>
