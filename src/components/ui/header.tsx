@@ -3,12 +3,27 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
+    navigationMenuTriggerStyleTheme,
 } from "@/components/ui/navigation-menu";
-import {navigationMenuTriggerStyleTheme} from "@/components/ui/navigation-menu"
 import {
-    Bell, CalendarCheck, LogOut, Menu, Moon, Palette,
-    Stethoscope, Sun, User, UserPlus, UserRoundPlus,
-    Users, UserSearch, Wallet,
+    Bell,
+    CalendarCheck,
+    CalendarCog,
+    LifeBuoy,
+    LogOut,
+    Mail,
+    Menu,
+    MessageCircle,
+    Moon,
+    Palette,
+    Settings,
+    Stethoscope,
+    Sun,
+    User,
+    UserCheck,
+    UserCog,
+    Users,
+    Wallet,
 } from "lucide-react";
 import Link from "next/link";
 import React, {useContext} from "react";
@@ -18,11 +33,12 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
-    DropdownMenuItem, DropdownMenuItemTheme, DropdownMenuItemThemeDanger, DropdownMenuItemThemeSub,
+    DropdownMenuItem,
+    DropdownMenuItemTheme,
+    DropdownMenuItemThemeDanger,
     DropdownMenuLabel,
     DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -30,8 +46,6 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {toast} from "@/components/ui/use-toast";
-import {ToastAction} from "@/components/ui/toast";
-import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {AppContext} from "@/contexts/app-context";
 
@@ -43,18 +57,17 @@ const Header = () => {
         toast({
             title: "Atenção!",
             description: "Você será desconectado.",
-            action: (<ToastAction altText={""}/>),
             variant: "warning"
         })
 
         setTimeout(() => {
             logout(session?.username ?? "", session?.sessionId ?? "", session?.token ?? "")
-            location.href = "/"
-        }, 5000)
+            window.location.href = "/"
+        }, 3000)
     }
 
     return (
-        <nav className={"flex items-center py-2.5 px-4 border-b lg:justify-between lg:px-24"}>
+        <nav className={"flex items-center bg-background py-2.5 px-4 border-b lg:justify-between lg:px-24"}>
             <div id={"mobile"} className={"flex items-center mr-4 lg:hidden"}>
                 <DropdownMenu>
                     <DropdownMenuTrigger
@@ -63,80 +76,39 @@ const Header = () => {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent align={"start"}
-                                         className={"block md:block lg:hidden w-60 mt-3 dark:text-white"}>
-                        <DropdownMenuLabel className={"flex"}>
-                            <User className={"w-4 h-4 mr-2"}/>
-                            {session?.username}
-                        </DropdownMenuLabel>
-
-                        <DropdownMenuSeparator/>
-
+                                         className={"block md:block lg:hidden w-56 mt-3 dark:text-white"}>
                         <DropdownMenuGroup>
                             <Link href={"/panel"}>
                                 <DropdownMenuItem className={DropdownMenuItemTheme()}>
                                     <CalendarCheck className={"w-4 h-4 mr-2"}/>
-                                    <Label>
+                                    <Label className={"cursor-pointer"}>
                                         Agenda
                                     </Label>
                                 </DropdownMenuItem>
                             </Link>
 
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger className={DropdownMenuSubTriggerTheme()}>
+                            <Link href={"/panel/patients"}>
+                                <DropdownMenuItem className={DropdownMenuItemTheme()}>
                                     <Users className={"w-4 h-4 mr-2"}/>
-                                    <Label>
+                                    <Label className={"cursor-pointer"}>
                                         Pacientes
                                     </Label>
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className={"block md:block lg:hidden ml-2"}>
-                                        <Link href={"/patients/new"}>
-                                            <DropdownMenuItem className={DropdownMenuItemThemeSub()}>
-                                                <UserPlus className="mr-2 h-4 w-4"/>
-                                                Novo
-                                            </DropdownMenuItem>
-                                        </Link>
+                                </DropdownMenuItem>
+                            </Link>
 
-                                        <Link href={"/patients"}>
-                                            <DropdownMenuItem className={DropdownMenuItemThemeSub()}>
-                                                <UserSearch className="mr-2 h-4 w-4"/>
-                                                Consultar
-                                            </DropdownMenuItem>
-                                        </Link>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenuSub>
-
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger className={DropdownMenuSubTriggerTheme()}>
-                                    <Stethoscope className={"w-4 h-4 mr-2"}/>
-                                    <Label>
-                                        Especialistas
+                            <Link href={"/panel/mail"}>
+                                <DropdownMenuItem className={DropdownMenuItemTheme()}>
+                                    <Mail className={"w-4 h-4 mr-2"}/>
+                                    <Label className={"cursor-pointer"}>
+                                        Email
                                     </Label>
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuPortal>
-                                    <DropdownMenuSubContent className={"block md:block lg:hidden ml-2"}>
-                                        <Link href={"/panel/specialists/new"}>
-                                            <DropdownMenuItem className={DropdownMenuItemThemeSub()}>
-                                                <UserPlus className="mr-2 h-4 w-4"/>
-                                                Novo
-                                            </DropdownMenuItem>
-                                        </Link>
-
-                                        <Link href={"/panel/specialists"}>
-                                            <DropdownMenuItem className={DropdownMenuItemThemeSub()}>
-                                                <UserSearch className="mr-2 h-4 w-4"/>
-                                                Consultar
-                                            </DropdownMenuItem>
-                                        </Link>
-                                    </DropdownMenuSubContent>
-                                </DropdownMenuPortal>
-                            </DropdownMenuSub>
+                                </DropdownMenuItem>
+                            </Link>
 
                             <Link href={"/financial"}>
                                 <DropdownMenuItem className={DropdownMenuItemTheme()}>
                                     <Wallet className={"w-4 h-4 mr-2"}/>
-                                    <Label>
+                                    <Label className={"cursor-pointer"}>
                                         Financeiro
                                     </Label>
                                 </DropdownMenuItem>
@@ -155,6 +127,56 @@ const Header = () => {
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent className={"block md:block lg:hidden ml-2"}>
 
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className={DropdownMenuSubTriggerTheme()}>
+                                <Settings className={"w-4 h-4 mr-2"}/>
+                                <Label>
+                                    Configurações
+                                </Label>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent className={"block md:block lg:hidden ml-2"}>
+                                    <DropdownMenuItem>
+                                        <Stethoscope className={"mr-2 w-4 h-4"}/>
+                                        <span>Dentistas</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <UserCheck className={"mr-2 w-4 h-4"}/>
+                                        <span>Especialidades</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <CalendarCog className={"mr-2 w-4 h-4"}/>
+                                        <span>Horários</span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className={DropdownMenuSubTriggerTheme()}>
+                                <User className={"w-4 h-4 mr-2"}/>
+                                <Label>
+                                    Conta
+                                </Label>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent className={"block md:block lg:hidden ml-2"}>
+                                    <DropdownMenuItem>
+                                        <UserCog className={"mr-2 w-4 h-4"}/>
+                                        <span>Perfil</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <MessageCircle className={"mr-2 w-4 h-4"}/>
+                                        <span>chats</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <LifeBuoy className={"mr-2 w-4 h-4"}/>
+                                        <span>Suporte</span>
+                                    </DropdownMenuItem>
                                 </DropdownMenuSubContent>
                             </DropdownMenuPortal>
                         </DropdownMenuSub>
@@ -226,29 +248,13 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger className={navigationMenuTriggerStyleTheme()}>
+                                <Link href={"/panel/patients"} legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyleTheme()}>
                                         <Users className={"w-5 h-5"}/>
                                         Pacientes
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="center" className={"w-auto mt-3"}>
-                                        <Link href={"/panel/patients/new"}>
-                                            <DropdownMenuItem className={"cursor-pointer"}>
-                                                <UserRoundPlus className="mr-2 h-4 w-4"/>
-                                                Novo
-                                            </DropdownMenuItem>
-                                        </Link>
-
-                                        <DropdownMenuSeparator/>
-
-                                        <Link href={"/panel/patients"}>
-                                            <DropdownMenuItem className={"cursor-pointer"}>
-                                                <UserSearch className="mr-2 h-4 w-4"/>
-                                                Listar Todos
-                                            </DropdownMenuItem>
-                                        </Link>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                    </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
 
                             <div className="flex h-5 items-center space-x-4 text-sm">
@@ -256,29 +262,13 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger className={navigationMenuTriggerStyleTheme()}>
-                                        <Stethoscope className={"w-5 h-5"}/>
-                                        Especialistas
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="center" className={"w-auto mt-3"}>
-                                        <Link href={"/panel/specialists/new"}>
-                                            <DropdownMenuItem className={"cursor-pointer"}>
-                                                <UserRoundPlus className="mr-2 h-4 w-4"/>
-                                                Novo
-                                            </DropdownMenuItem>
-                                        </Link>
-
-                                        <DropdownMenuSeparator/>
-
-                                        <Link href={"/panel/specialists"}>
-                                            <DropdownMenuItem className={"cursor-pointer"}>
-                                                <UserSearch className="mr-2 h-4 w-4"/>
-                                                Listar Todos
-                                            </DropdownMenuItem>
-                                        </Link>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                <Link href={"/panel/mail"} legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyleTheme()}>
+                                        <Mail className={"w-5 h-5"}/>
+                                        Email
+                                    </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
 
                             <div className="flex h-5 items-center space-x-4 text-sm">
@@ -286,7 +276,7 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <Link href={"/financial"} legacyBehavior passHref>
+                                <Link href={"/panel/financial"} legacyBehavior passHref>
                                     <NavigationMenuLink
                                         className={navigationMenuTriggerStyleTheme()}>
                                         <Wallet className={"w-5 h-5"}/>
@@ -299,67 +289,103 @@ const Header = () => {
                 </div>
             </div>
 
-            <div id={"controls"} className={"hidden md:hidden lg:block"}>
+            <div className={"hidden md:hidden lg:block"}>
                 <div className={"flex flex-row justify-center items-center gap-2"}>
-                    <div id={"notifications"} className={"p-3 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent group cursor-pointer"}>
-                        <div className={""}>
-                            <Bell className={"w-5 h-5 text-neutral-700 group-hover:text-primary dark:text-white"}/>
-                        </div>
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
+                                <div
+                                    className={"p-2 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
+                                    <Bell
+                                        className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"end"} className={"mt-4 w-52"}>
+                                <DropdownMenuLabel>Notificações</DropdownMenuLabel>
+                                <DropdownMenuSeparator/>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger
-                            asChild
-                            className={"w-[44px] h-[44px] rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 group"}
-                        >
-                            <Button variant="outline" size="icon">
-                                <Moon
-                                    className="w-5 h-5 text-neutral-700 group-hover:text-primary dark:group-hover:bg-accent dark:text-white rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-                                />
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
+                                <div
+                                    className={"p-2 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
+                                    <Settings
+                                        className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"end"} className={"mt-4 w-52"}>
+                                <DropdownMenuLabel>Configurações</DropdownMenuLabel>
+                                <DropdownMenuSeparator/>
+                                <DropdownMenuItem>
+                                    <Stethoscope className={"mr-2 w-4 h-4"}/>
+                                    <span>Dentistas</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <UserCheck className={"mr-2 w-4 h-4"}/>
+                                    <span>Especialidades</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <CalendarCog className={"mr-2 w-4 h-4"}/>
+                                    <span>Horários</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator/>
+                                <DropdownMenuSub>
+                                    <DropdownMenuSubTrigger>
+                                        <Palette className="mr-2 h-4 w-4"/>
+                                        <span>Tema</span>
+                                    </DropdownMenuSubTrigger>
+                                    <DropdownMenuPortal>
+                                        <DropdownMenuSubContent className={"ml-2"}>
+                                            <DropdownMenuItem onClick={() => setTheme("light")}>
+                                                <Sun className={"w-4 h-4 mr-2"}/>
+                                                Claro
+                                            </DropdownMenuItem>
 
-                                <Sun
-                                    className="absolute w-5 h-5 text-neutral-700 dark:text-white rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-                                />
-                                <span className="sr-only">Toggle theme</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className={"mt-4 hidden md:block lg:block"}>
-                            <DropdownMenuItem onClick={() => setTheme("light")}>
-                                <Sun className={"w-4 h-4 mr-2"}/>
-                                Claro
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setTheme("dark")}>
-                                <Moon className={"w-4 h-4 mr-2"}/>
-                                Escuro
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                            <DropdownMenuItem onClick={() => setTheme("dark")}>
+                                                <Moon className={"w-4 h-4 mr-2"}/>
+                                                Escuro
+                                            </DropdownMenuItem>
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuPortal>
+                                </DropdownMenuSub>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
 
-                    <div id={"user"} className={"p-3 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent group cursor-pointer"}>
-                        <div className={""}>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <User className={"w-5 h-5 text-neutral-700 group-hover:text-primary dark:text-white"}/>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className={"w-44 mt-6 mr-24 hidden md:block lg:block "}>
-                                    <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
-                                    <DropdownMenuSeparator/>
-                                    <DropdownMenuGroup>
-                                        <DropdownMenuItem>
-                                            <User className={"mr-2 w-5 h-5"}/>
-                                            <span>{session?.username}</span>
-                                            <DropdownMenuShortcut></DropdownMenuShortcut>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator/>
-                                        <DropdownMenuItem className={"cursor-pointer"} onClick={() => handleLogout()}>
-                                            <LogOut className="mr-2 h-4 w-4"/>
-                                            <span>Log out</span>
-                                            <DropdownMenuShortcut></DropdownMenuShortcut>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuGroup>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
+                                <div
+                                    className={"p-2 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
+                                    <User
+                                        className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"end"} className={"mt-4 w-52"}>
+                                <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                                <DropdownMenuSeparator/>
+                                <DropdownMenuItem>
+                                    <UserCog className={"mr-2 w-4 h-4"}/>
+                                    <span>Perfil</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <MessageCircle className={"mr-2 w-4 h-4"}/>
+                                    <span>Chats</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <LifeBuoy className={"mr-2 w-4 h-4"}/>
+                                    <span>Suporte</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator/>
+                                <DropdownMenuItem onClick={() => handleLogout()}>
+                                    <LogOut className={"mr-2 w-4 h-4"}/>
+                                    <span>Sair</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </div>

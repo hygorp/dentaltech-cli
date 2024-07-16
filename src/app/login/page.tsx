@@ -19,9 +19,9 @@ const Login = () => {
 
     useEffect(() => {
         isAuthenticated ? push("/panel") : (() => {
-            push("/login");
-            setIsLoading(false);
-        })()
+                push("/login");
+                setIsLoading(false);
+            })()
     }, [isAuthenticated, push]);
 
     const handleFormikSubmit = async (values: FormikValues) => {
