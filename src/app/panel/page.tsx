@@ -1,6 +1,6 @@
 "use client"
 
-import {Container} from "@/components/ui/container";
+import {MainContainer} from "@/components/ui/main-container";
 import Header from "@/components/ui/header";
 import {Bounce} from "@/components/ui/bounce";
 import {useContext, useEffect, useState} from "react";
@@ -24,10 +24,10 @@ const Panel = () => {
     }, [isAuthenticated, push]);
 
     return (
-        <Container title={"Painel - Dentaltech"}>
+        <MainContainer title={"Painel - Dentaltech"}>
             <Header/>
             <Bounce show={isLoading} size={"large"}/>
-        </Container>
+        </MainContainer>
     )
 }
 

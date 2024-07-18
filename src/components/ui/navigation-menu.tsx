@@ -47,6 +47,9 @@ const navigationMenuTriggerStyle = cva(
 const navigationMenuTriggerStyleTheme = cva(
     "gap-2 group inline-flex h-10 w-max items-center justify-center rounded-md bg-background text-neutral-700 dark:text-white px-4 py-2 text-sm font-semibold transition-colors hover:bg-pigment-indigo-50 dark:hover:bg-accent hover:text-primary dark:hover:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:text-primary data-[state=open]:bg-pigment-indigo-50 dark:data-[state=open]:text-white dark:data-[state=open]:bg-accent"
 )
+const navigationMenuTriggerStyleThemeActive = cva(
+    "gap-2 group inline-flex h-10 w-max items-center justify-center rounded-md text-primary dark:text-white px-4 py-2 text-sm font-semibold transition-colors bg-pigment-indigo-50 dark:bg-accent primary dark:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:text-primary data-[state=open]:bg-pigment-indigo-50 dark:data-[state=open]:text-white dark:data-[state=open]:bg-accent"
+)
 
 const NavigationMenuTrigger = React.forwardRef<
     React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
@@ -122,6 +125,7 @@ NavigationMenuIndicator.displayName =
 export {
     navigationMenuTriggerStyle,
     navigationMenuTriggerStyleTheme,
+    navigationMenuTriggerStyleThemeActive,
     NavigationMenu,
     NavigationMenuList,
     NavigationMenuItem,

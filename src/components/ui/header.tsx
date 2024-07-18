@@ -4,6 +4,7 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
     navigationMenuTriggerStyleTheme,
+    navigationMenuTriggerStyleThemeActive,
 } from "@/components/ui/navigation-menu";
 import {
     Bell,
@@ -21,6 +22,7 @@ import {
     Sun,
     User,
     UserCheck,
+    UserCircle,
     UserCog,
     Users,
     Wallet,
@@ -48,8 +50,11 @@ import {
 import {toast} from "@/components/ui/use-toast";
 import {Label} from "@/components/ui/label";
 import {AppContext} from "@/contexts/app-context";
+import {Button} from "@/components/ui/button";
+import {useRouter} from "next/navigation";
 
-const Header = () => {
+const Header = ({route}: { route?: string }) => {
+    const {push} = useRouter()
     const {session, logout} = useContext(AppContext)
     const {setTheme} = useTheme()
 
@@ -87,7 +92,7 @@ const Header = () => {
                                 </DropdownMenuItem>
                             </Link>
 
-                            <Link href={"/panel/patients"}>
+                            <Link href={"/patients"}>
                                 <DropdownMenuItem className={DropdownMenuItemTheme()}>
                                     <Users className={"w-4 h-4 mr-2"}/>
                                     <Label className={"cursor-pointer"}>
@@ -96,7 +101,7 @@ const Header = () => {
                                 </DropdownMenuItem>
                             </Link>
 
-                            <Link href={"/panel/mail"}>
+                            <Link href={"/mail"}>
                                 <DropdownMenuItem className={DropdownMenuItemTheme()}>
                                     <Mail className={"w-4 h-4 mr-2"}/>
                                     <Label className={"cursor-pointer"}>
@@ -144,10 +149,14 @@ const Header = () => {
                                         <Stethoscope className={"mr-2 w-4 h-4"}/>
                                         <span>Dentistas</span>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <UserCheck className={"mr-2 w-4 h-4"}/>
-                                        <span>Especialidades</span>
-                                    </DropdownMenuItem>
+
+                                    <Link href={"/settings/specialties"}>
+                                        <DropdownMenuItem>
+                                            <UserCheck className={"mr-2 w-4 h-4"}/>
+                                            <span>Especialidades</span>
+                                        </DropdownMenuItem>
+                                    </Link>
+
                                     <DropdownMenuItem>
                                         <CalendarCog className={"mr-2 w-4 h-4"}/>
                                         <span>Horários</span>
@@ -217,10 +226,9 @@ const Header = () => {
 
             <div className={"flex flex-row items-center"}>
                 <div id={"logo"} className={"mr-8"}>
-                    <h1
-                        className={"logo-font text-primary dark:text-white text-4xl cursor-pointer"}
+                    <h1 className={"logo-font text-primary dark:text-white text-4xl cursor-pointer"}
                         title={"Dentaltech"}
-                        onClick={() => location.href = "/panel"}
+                        onClick={() => push("/panel")}
                     >
                         Dentaltech
                     </h1>
@@ -234,9 +242,9 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList className={"gap-2"}>
                             <NavigationMenuItem>
-                                <Link href={"/panel"} legacyBehavior passHref>
+                                <Link href={"/schedule"} legacyBehavior passHref>
                                     <NavigationMenuLink
-                                        className={navigationMenuTriggerStyleTheme()}>
+                                        className={route == "schedule" ? navigationMenuTriggerStyleThemeActive() : navigationMenuTriggerStyleTheme()}>
                                         <CalendarCheck className={"w-5 h-5"}/>
                                         Agenda
                                     </NavigationMenuLink>
@@ -248,9 +256,9 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <Link href={"/panel/patients"} legacyBehavior passHref>
+                                <Link href={"/patients"} legacyBehavior passHref>
                                     <NavigationMenuLink
-                                        className={navigationMenuTriggerStyleTheme()}>
+                                        className={route == "patients" ? navigationMenuTriggerStyleThemeActive() : navigationMenuTriggerStyleTheme()}>
                                         <Users className={"w-5 h-5"}/>
                                         Pacientes
                                     </NavigationMenuLink>
@@ -262,9 +270,9 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <Link href={"/panel/mail"} legacyBehavior passHref>
+                                <Link href={"/mail"} legacyBehavior passHref>
                                     <NavigationMenuLink
-                                        className={navigationMenuTriggerStyleTheme()}>
+                                        className={route == "mail" ? navigationMenuTriggerStyleThemeActive() : navigationMenuTriggerStyleTheme()}>
                                         <Mail className={"w-5 h-5"}/>
                                         Email
                                     </NavigationMenuLink>
@@ -276,9 +284,9 @@ const Header = () => {
                             </div>
 
                             <NavigationMenuItem>
-                                <Link href={"/panel/financial"} legacyBehavior passHref>
+                                <Link href={"/financial"} legacyBehavior passHref>
                                     <NavigationMenuLink
-                                        className={navigationMenuTriggerStyleTheme()}>
+                                        className={route == "financial" ? navigationMenuTriggerStyleThemeActive() : navigationMenuTriggerStyleTheme()}>
                                         <Wallet className={"w-5 h-5"}/>
                                         Financeiro
                                     </NavigationMenuLink>
@@ -291,6 +299,43 @@ const Header = () => {
 
             <div className={"hidden md:hidden lg:block"}>
                 <div className={"flex flex-row justify-center items-center gap-2"}>
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
+                                <Button variant="ghost" size="icon"
+                                        className={"w-30 h-30 p-2 hover:bg-pigment-indigo-50 dark:hover:bg-accent group rounded-full focus-visible:ring-offset-0 focus-visible:ring-0 focus:outline-none outline-none border-none focus:border-none focus:ring-0 focus:ring-transparent focus:shadow-none data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
+                                    <Sun
+                                        className="group-hover:text-primary text-neutral-700 dark:text-white h-[20px] w-[20px] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"/>
+                                    <Moon
+                                        className="group-hover:text-primary text-neutral-700 dark:text-white absolute h-[20px] w-[20px] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"/>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"end"} className={"mt-4 w-52"}>
+                                <DropdownMenuLabel>Tema</DropdownMenuLabel>
+
+                                <DropdownMenuSeparator/>
+
+                                <DropdownMenuItem onClick={() => setTheme("light")}>
+                                    <Sun className={"w-4 h-4 mr-2"}/>
+                                    Claro
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                                    <Moon className={"w-4 h-4 mr-2"}/>
+                                    Escuro
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+
+                    <Link href={"/settings"}>
+                        <div
+                            className={"group p-2 cursor-pointer rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
+                            <Settings
+                                className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
+                        </div>
+                    </Link>
+
                     <div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
@@ -312,54 +357,6 @@ const Header = () => {
                             <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
                                 <div
                                     className={"p-2 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
-                                    <Settings
-                                        className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
-                                </div>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align={"end"} className={"mt-4 w-52"}>
-                                <DropdownMenuLabel>Configurações</DropdownMenuLabel>
-                                <DropdownMenuSeparator/>
-                                <DropdownMenuItem>
-                                    <Stethoscope className={"mr-2 w-4 h-4"}/>
-                                    <span>Dentistas</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <UserCheck className={"mr-2 w-4 h-4"}/>
-                                    <span>Especialidades</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <CalendarCog className={"mr-2 w-4 h-4"}/>
-                                    <span>Horários</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator/>
-                                <DropdownMenuSub>
-                                    <DropdownMenuSubTrigger>
-                                        <Palette className="mr-2 h-4 w-4"/>
-                                        <span>Tema</span>
-                                    </DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent className={"ml-2"}>
-                                            <DropdownMenuItem onClick={() => setTheme("light")}>
-                                                <Sun className={"w-4 h-4 mr-2"}/>
-                                                Claro
-                                            </DropdownMenuItem>
-
-                                            <DropdownMenuItem onClick={() => setTheme("dark")}>
-                                                <Moon className={"w-4 h-4 mr-2"}/>
-                                                Escuro
-                                            </DropdownMenuItem>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-
-                    <div>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild className={"group cursor-pointer"}>
-                                <div
-                                    className={"p-2 rounded-full hover:bg-pigment-indigo-50 dark:hover:bg-accent data-[state=open]:bg-primary dark:data-[state=open]:bg-accent"}>
                                     <User
                                         className={"w-5 h-5 text-neutral-700 dark:text-white group-hover:text-primary group-data-[state=open]:text-white dark:group-data-[state=open]:text-primary"}/>
                                 </div>
@@ -368,8 +365,8 @@ const Header = () => {
                                 <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                                 <DropdownMenuSeparator/>
                                 <DropdownMenuItem>
-                                    <UserCog className={"mr-2 w-4 h-4"}/>
-                                    <span>Perfil</span>
+                                    <UserCircle className={"mr-2 w-4 h-4"}/>
+                                    <span>{session?.username}</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <MessageCircle className={"mr-2 w-4 h-4"}/>

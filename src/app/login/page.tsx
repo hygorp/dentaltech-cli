@@ -1,6 +1,6 @@
 "use client"
 
-import {Container} from "@/components/ui/container";
+import {MainContainer} from "@/components/ui/main-container";
 import {Bounce} from "@/components/ui/bounce";
 import {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
@@ -57,7 +57,7 @@ const Login = () => {
     }
 
     return (
-        <Container title={"Dentaltech - Login"} className={"h-screen flex flex-col justify-center items-center"}>
+        <MainContainer title={"Dentaltech - Login"} className={"h-screen flex flex-col justify-center items-center"}>
             <Bounce show={isLoading} size={"large"}/>
             <ToggleTheme className="absolute right-0 top-0 m-5"/>
 
@@ -81,7 +81,7 @@ const Login = () => {
                     </Form>
                 )}
             </Formik>
-        </Container>
+        </MainContainer>
     )
 }
 

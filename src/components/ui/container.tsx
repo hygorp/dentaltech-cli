@@ -2,16 +2,12 @@ import React from "react";
 
 const Container = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement> & {
-    title?: string;
-}
->(({title, ...props}, ref) => {
+    React.HTMLAttributes<HTMLDivElement>
+>(({...props}, ref) => {
     return (
         <>
-            <title>{title}</title>
-
-            <main
-                className={"h-dvh"}
+            <div
+                className={"mx-6 my-6 p-10 md:mx-6 md:my-6 md:p-10 lg:mx-24 lg:my-6 lg:p-10 border rounded-lg"}
                 ref={ref}
                 {...props}
             />
